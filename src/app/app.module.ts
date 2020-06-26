@@ -1,18 +1,24 @@
 import { BrowserModule } from '@angular/platform-browser';
 import { NgModule } from '@angular/core';
-
 import { AppComponent } from './app.component';
-import { EventsListComponent } from './events/events-list/events-list.component';
-import { EventThumbnailComponent } from './events/event-thumbnail/event-thumbnail.component';
+
+import {
+  EventsListComponent,
+  EventThumbnailComponent,
+  EventService,
+  EventDetailsComponent,
+  CreateEventComponent,
+  EventRouteActivatorService,
+  EventListResolverService
+} from './events/index';
 import { NavbarComponent } from './nav/navbar/navbar.component';
-import { EventService } from './events/shared/event.service';
 import { ToastrService } from './common/toastr.service';
-import { EventDetailsComponent } from './events/event-details/event-details.component';
-import { RouterModule } from '@angular/router';
 import { appRoutes } from './routes';
-import { CreateEventComponent } from './events/create-event/create-event.component';
 import { Error404Component } from './errors/404.component';
-import { EventRouteActivatorService } from './events/event-details/event-route-activator.service';
+import { UserModule } from './user/user/user.module';
+import { RouterModule } from '@angular/router';
+import { AuthService } from './user/user/auth.service';
+
 
 @NgModule({
   declarations: [
@@ -26,7 +32,8 @@ import { EventRouteActivatorService } from './events/event-details/event-route-a
   ],
   imports: [
     BrowserModule,
-    RouterModule.forRoot(appRoutes)
+    RouterModule.forRoot(appRoutes),
+    UserModule
   ],
   providers: [
     EventService,
@@ -35,18 +42,20 @@ import { EventRouteActivatorService } from './events/event-details/event-route-a
     {
       provide: 'canDeactivateCreateEvent',
       useValue: checkDirtyState
-    }
+    },
+    EventListResolverService,
+    AuthService
   ],
   bootstrap: [AppComponent]
 })
-export class AppModule {}
+export class AppModule { }
 
 export function checkDirtyState(component: CreateEventComponent) {
-   if (component.isDirty) {
-      return window.confirm('You have not saved this event, do you really want to cancel?');
-   }
-   return true;
-   }
+  if (component.isDirty) {
+    return window.confirm('You have not saved this event, do you really want to cancel?');
+  }
+  return true;
+}
 
 
 
