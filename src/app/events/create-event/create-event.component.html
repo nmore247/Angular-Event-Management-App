@@ -1,1 +1,16 @@
-<p>create-event works!</p>
+<h1>New Event</h1>
+<hr>
+<div class="col-md-6">
+    <h3>
+
+        <form id="event-create">
+            <input id="Event Name" placeholder="Event Name" type="text" style="font-size: large;">
+            <input id="Event Date" placeholder="Date" type="text" style="font-size: large;">
+            <input type="submit" style="margin-left: 5px; font-size: large;">
+        </form>
+ 
+    </h3>
+    <br />
+    <br />
+    <button type="submit" class="btn btn-primary">Save</button>
+    <button type="button" class="btn btn-default" (click)="cancel()">Cancel</button>
